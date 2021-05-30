@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name='lab5-master' basedir="." default="build">
+	 <loadproperties srcFile="ant.properties"/>
+	 
+	<target name="compile">
+		<echo>Compilation...</echo>
+		<mkdir dir="${classes}"/>
+		<javac includeantruntime="false" srcdir="${src}" encoding="iso-8859-1" 
+		destdir="${classes}"/>
+		<echo>Compilation DONE!</echo>
+	</target>
+	 
+	<target name="build" depends="compile">
+		 <echo>Building...</echo>
+		 <buildnumber/>
+		 <jar destfile="${jarfile}">
+			 <fileset dir="${classes}"/>
+			 <manifest>
+				<attribute name="Classes.Main-Class" value="Classes.Main"/>
+			 </manifest>
+		 </jar>
+		<echo>Building DONE!</echo>
+	</target>
+	
+	<target name="scp" depends="build">
+		<echo>Sending...</echo>
+		<scp
+		localFile="${jarfile}"
+		port="${port}"
+		todir="${user}:${password}@${jumphost}:${home}"
+		trust="true"
+		/>
+		<echo>Sending success!</echo>
+	</target>
+	 
+	<target name="clean">
+		 <echo>Cleaning...</echo>
+		 <delete dir="${build}"/>
+		 <delete file="${jarfile}"/>
+		 <delete file="build.number"/>
+		 <echo>Cleaning DONE!</echo>
+	</target>
+	 
+	<target name="test" depends="build">
+	</target>
+ 
+	<target name="alt" >
+		<copy todir="${src}_old">
+			<fileset dir="./src"/>
+		</copy>
+				<replaceregexp file="${src}/MeleeWeapon.java" match="Classes.MeleeWeapon" replace="Butterfly" byline="true" />
+		<replaceregexp file="${src}/SpaceMarine.java" match="Classes.MeleeWeapon" replace="Butterfly" byline="true"/>
+		<move file="${src}/MeleeWeapon.java" tofile="${src}/Butterfly.java" />
+	
+		<antcall target="build" />
+	</target>
+
+ 
+ 
+ </project>
