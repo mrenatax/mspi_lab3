@@ -8,9 +8,9 @@
 
 	<target name="compile" description = "компиляция исходных кодов проекта">
 		<echo>Compilation...</echo>
-		<mkdir dir="${classes}"/>
+		<mkdir dir="${compiled_classes}"/>
 		<javac includeantruntime="true" classpathref = "classpath.test" srcdir="${src}" encoding="iso-8859-1" 
-		destdir="${classes}"/>
+		destdir="${compiled_classes}"/>
 		<echo>Compilation DONE!</echo>
 	</target>
 	 
@@ -18,7 +18,7 @@
 		 <echo>Building...</echo>
 		 <buildnumber/>
 		 <jar destfile="${jarfile}">
-			 <fileset dir="${classes}"/>
+			 <fileset dir="${compiled_classes}"/>
 			 <manifest>
 				<attribute name="Classes.Main-Class" value="Classes.Main"/>
 			 </manifest>
@@ -46,6 +46,18 @@
 	</target>
 	 
 	<target name="test" depends="build" description = "запуск junit-тестов проекта">
+		<echo>Testing...</echo>
+		<junit fork="true" printsummary="on">
+            <formatter type="xml"/>
+            <classpath refid="classpath.test" />
+            <classpath location="${compiled.classes}"/>
+            <classpath location="${compiled.tests}"/>
+          	<classpath location="${lib}/*.jar" />	
+            <batchtest todir="reports">
+                <fileset dir="test" includes="*Test.java" />
+            </batchtest>
+        </junit>
+		<echo>Testing DONE!</echo>
 	</target>
  
 	<target name="alt" description = "создаёт альтернативную версию программы с измененными именами переменных и классов">
