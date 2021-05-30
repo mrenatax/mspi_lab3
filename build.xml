@@ -2,7 +2,7 @@
 <project name='lab5-master' basedir="." default="build">
 	 <loadproperties srcFile="ant.properties"/>
 	 
-	<target name="compile">
+	<target name="compile" description = "компиляция исходных кодов проекта">
 		<echo>Compilation...</echo>
 		<mkdir dir="${classes}"/>
 		<javac includeantruntime="false" srcdir="${src}" encoding="iso-8859-1" 
@@ -10,7 +10,7 @@
 		<echo>Compilation DONE!</echo>
 	</target>
 	 
-	<target name="build" depends="compile">
+	<target name="build" depends="compile" description = "компиляция исходных кодов проекта и их упаковка в исполняемый jar-архив">
 		 <echo>Building...</echo>
 		 <buildnumber/>
 		 <jar destfile="${jarfile}">
@@ -22,7 +22,7 @@
 		<echo>Building DONE!</echo>
 	</target>
 	
-	<target name="scp" depends="build">
+	<target name="scp" depends="build" description = "перемещение собранного проекта по scp на выбранный сервер по завершению сборки">
 		<echo>Sending...</echo>
 		<scp
 		localFile="${jarfile}"
@@ -30,10 +30,10 @@
 		todir="${user}:${password}@${jumphost}:${home}"
 		trust="true"
 		/>
-		<echo>Sending success!</echo>
+		<echo>Sending DONE!</echo>
 	</target>
 	 
-	<target name="clean">
+	<target name="clean" description = "удаление скомпилированных классов проекта и всех временных файлов">
 		 <echo>Cleaning...</echo>
 		 <delete dir="${build}"/>
 		 <delete file="${jarfile}"/>
@@ -41,20 +41,18 @@
 		 <echo>Cleaning DONE!</echo>
 	</target>
 	 
-	<target name="test" depends="build">
+	<target name="test" depends="build" description = "запуск junit-тестов проекта">
 	</target>
  
-	<target name="alt" >
+	<target name="alt" description = "создаёт альтернативную версию программы с измененными именами переменных и классов">
+	<echo>Making alt version...</echo>
 		<copy todir="${src}_old">
 			<fileset dir="./src"/>
 		</copy>
-				<replaceregexp file="${src}/MeleeWeapon.java" match="Classes.MeleeWeapon" replace="Butterfly" byline="true" />
+		<replaceregexp file="${src}/MeleeWeapon.java" match="Classes.MeleeWeapon" replace="Butterfly" byline="true" />
 		<replaceregexp file="${src}/SpaceMarine.java" match="Classes.MeleeWeapon" replace="Butterfly" byline="true"/>
 		<move file="${src}/MeleeWeapon.java" tofile="${src}/Butterfly.java" />
-	
 		<antcall target="build" />
+		<echo>Alt version DONE!</echo>
 	</target>
-
- 
- 
  </project>
