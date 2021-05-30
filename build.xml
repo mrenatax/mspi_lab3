@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name='lab5-master' basedir="." default="build">
 	 <loadproperties srcFile="ant.properties"/>
-	 
+	 <path id="classpath.test">
+        <fileset dir="${lib}" 
+             includes="*.jar"/>
+    </path>
+
 	<target name="compile" description = "компиляция исходных кодов проекта">
 		<echo>Compilation...</echo>
 		<mkdir dir="${classes}"/>
-		<javac includeantruntime="false" srcdir="${src}" encoding="iso-8859-1" 
+		<javac includeantruntime="true" classpathref = "classpath.test" srcdir="${src}" encoding="iso-8859-1" 
 		destdir="${classes}"/>
 		<echo>Compilation DONE!</echo>
 	</target>
