@@ -45,21 +45,19 @@
 		 <echo>Cleaning DONE!</echo>
 	</target>
 	 
-	<target name="test" depends="build" description = "запуск junit-тестов проекта">
-		<echo>Testing...</echo>
-		<junit fork="true" printsummary="on">
-            <formatter type="xml"/>
-            <classpath refid="classpath.test" />
-            <classpath location="${compiled.classes}"/>
-            <classpath location="${compiled.tests}"/>
-          	<classpath location="${lib}/*.jar" />	
-            <batchtest todir="reports">
-                <fileset dir="test" includes="*Test.java" />
-            </batchtest>
+	<target name="test" depends="build">
+	<echo>Testing...</echo>
+        <junit printsummary="on" haltonerror="true" haltonfailure="true" >
+            <classpath>
+                <path refid="classpath.test"/>
+                <pathelement location="${build}"/>
+            </classpath>
+            <formatter type="plain" usefile="false" />
+             <test name="Tests.CommandsTest"/>
         </junit>
-		<echo>Testing DONE!</echo>
-	</target>
- 
+	<echo>Tests DONE!</echo>
+    </target>
+
 	<target name="alt" description = "создаёт альтернативную версию программы с измененными именами переменных и классов">
 	<echo>Making alt version...</echo>
 		<copy todir="${src}_old">

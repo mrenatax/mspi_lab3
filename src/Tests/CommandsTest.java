@@ -1,12 +1,13 @@
 package Tests;
-
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import java.util.ArrayDeque;
 import java.util.InputMismatchException;
 import Classes.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-class CommandsTest {
+import static org.junit.Assert.assertEquals;
+//import static org.junit.jupiter.api.Assertions.*;
+
+public class CommandsTest {
     static ArrayDeque<SpaceMarine> collection = new ArrayDeque<>();
     static Chapter chapter1 = new Chapter("chapter1", 12);
     static Chapter chapter2 = new Chapter("chapter2", 159);
@@ -15,15 +16,16 @@ class CommandsTest {
     static SpaceMarine spaceMarine1 = new SpaceMarine("SpaceMarine", (long)12, (long)12, chapter1, coordinates, MeleeWeapon.CHAIN_AXE, Weapon.BOLTGUN);
     static SpaceMarine spaceMarine2 = new SpaceMarine("Renata", (long)115, (long)11, chapter2, coordinates, MeleeWeapon.CHAIN_SWORD, Weapon.MULTI_MELTA);
     static SpaceMarine spaceMarine3 = new SpaceMarine("Vanya", (long)97, (long)33, chapter3, coordinates, MeleeWeapon.POWER_FIST, Weapon.GRENADE_LAUNCHER);
-
+    public CommandsTest(){}
     void prepare() {
+        collection.clear();
         collection.add(spaceMarine1);
         collection.add(spaceMarine2);
         collection.add(spaceMarine3);
     }
 
     @Test
-    void removeById() {
+    public void removeById() {
         prepare();
         assertEquals(3, collection.size());
         System.out.println("Collection size: " + collection.size());
@@ -51,7 +53,7 @@ class CommandsTest {
     }
 
     @Test
-    void sumOfHeight() {
+    public void sumOfHeight() {
         prepare();
         if (collection.size() != 0) {
             Long x = 0l;
@@ -59,13 +61,14 @@ class CommandsTest {
                 x = x + s.getHeight();
             }
             System.out.println("Sum of height:\n" + x);
-            assertEquals(56, x);
+            Long l = 56l;
+            assertEquals( l,x);
         }
         else System.out.println("Collection is empty");
     }
 
     @Test
-    void maxByName() {
+    public void maxByName() {
         prepare();
         if (collection.size() != 0) {
             if (collection.size() == 1) {
